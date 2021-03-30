@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Scr_BeatCircles : MonoBehaviour
 {
+    [SerializeField] private Scr_MetronomeV2 metronome;
 
     private Transform[] arrayOfTransformRight;
     private Transform[] arrayOfTransformLeft;
@@ -29,12 +30,11 @@ public class Scr_BeatCircles : MonoBehaviour
 
     private void Start()
     {
-        Scr_Metronome.OnTick += OnTick;
+        metronome.Ticked += OnTick;
     }
 
-    private void OnTick(int tickCount)
+    private void OnTick(double tickTime)
     {
-        Scr_AudioManager.instance.PlayBeatSFX();
 
         halfCircleRightTranform.position = arrayOfTransformRight[nextPosition].position;
         halfCircleLeftTranform.position = arrayOfTransformLeft[nextPosition].position;

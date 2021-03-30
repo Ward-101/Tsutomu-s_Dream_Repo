@@ -16,4 +16,9 @@ public class Scr_AudioManager : MonoBehaviour
     {
         listOfSources[0].Play();
     }
+
+    public void PlayBeat4Mesure()
+    {
+        listOfSources[1].Play();
+    }
 }
