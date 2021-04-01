@@ -33,9 +33,8 @@ public class Scr_BeatCircles : MonoBehaviour
         metronome.Ticked += OnTick;
     }
 
-    private void OnTick(double tickTime)
+    private void TickAction(double tickTime)
     {
-
         halfCircleRightTranform.position = arrayOfTransformRight[nextPosition].position;
         halfCircleLeftTranform.position = arrayOfTransformLeft[nextPosition].position;
 
@@ -44,5 +43,10 @@ public class Scr_BeatCircles : MonoBehaviour
             nextPosition = 3;
         }
         else nextPosition--;
+    }
+
+    private void OnTick(double tickTime)
+    {
+        Invoke("TickAction", (float)tickTime);
     }
 }

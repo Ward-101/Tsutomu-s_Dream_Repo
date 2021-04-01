@@ -216,6 +216,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1615066609 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+    type: 3}
+  m_PrefabInstance: {fileID: 1319060047501619571}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532f6f8cc4f0d504e9fd63dd9d41f7cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &906294214581895110
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -295,11 +307,155 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 906294213649145159, guid: aea98cf797fa6b5409bc895cc798c946,
         type: 3}
+      propertyPath: sequencer
+      value: 
+      objectReference: {fileID: 1615066609}
+    - target: {fileID: 906294213649145159, guid: aea98cf797fa6b5409bc895cc798c946,
+        type: 3}
       propertyPath: attackTime
       value: 0.057999998331069946
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aea98cf797fa6b5409bc895cc798c946, type: 3}
+--- !u!1001 &1319060047501619571
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1319060045895140481, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140481, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.557942
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140481, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.003222987
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140481, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.5492725
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140481, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140481, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140481, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140481, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140481, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140481, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140481, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: metronome
+      value: 
+      objectReference: {fileID: 643957419}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.data[0].active
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.data[1].active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.data[2].active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.data[3].active
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.data[4].active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.data[5].active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.data[3].duration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.data[4].duration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.data[5].duration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.data[3].midiNoteNumber
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.data[4].midiNoteNumber
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140482, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: steps.Array.data[5].midiNoteNumber
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1319060045895140483, guid: 3b05383bcd97ed942b73ecfa17ceed58,
+        type: 3}
+      propertyPath: m_Name
+      value: Sequencer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3b05383bcd97ed942b73ecfa17ceed58, type: 3}
 --- !u!1001 &6246948887699577523
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -310,7 +466,7 @@ PrefabInstance:
     - target: {fileID: 6246948887126923288, guid: 255d2d92a24c2a84b945f7e357b1a85e,
         type: 3}
       propertyPath: tempo
-      value: 60
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 6246948887126923288, guid: 255d2d92a24c2a84b945f7e357b1a85e,
         type: 3}

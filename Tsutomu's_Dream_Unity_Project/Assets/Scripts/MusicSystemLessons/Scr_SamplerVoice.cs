@@ -9,7 +9,7 @@ public class Scr_SamplerVoice : MonoBehaviour
 
     private readonly Scr_ASREnvelope envelope = new Scr_ASREnvelope();
 
-    public void Play(AudioClip audioClip,double startTime ,double attackTime, double sustainTime, double releaseTime)
+    public void Play(AudioClip audioClip, float pitch, double startTime ,double attackTime, double sustainTime, double releaseTime)
     {
         sustainTime = (sustainTime > attackTime) ? (sustainTime - attackTime) : 0.0;
         envelope.Reset(attackTime, sustainTime, releaseTime, AudioSettings.outputSampleRate);
@@ -17,6 +17,7 @@ public class Scr_SamplerVoice : MonoBehaviour
         double timeUntilTrigger = (startTime > AudioSettings.dspTime) ? (startTime - AudioSettings.dspTime) : 0.0;
         samplesUntilEnvelopeTrigger = (uint)(timeUntilTrigger * AudioSettings.outputSampleRate);
 
+        audioSource.pitch = pitch;
         audioSource.clip = audioClip;
         audioSource.PlayScheduled(startTime);
     }

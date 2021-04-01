@@ -5,12 +5,15 @@ public class Scr_MetronomeV2 : MonoBehaviour
 {
     public event Action<double> Ticked;
 
+
     [SerializeField, Tooltip("Le tempo en batement par minute")] private double tempo = 120.0;
     [SerializeField, Tooltip("le nombre de tick par batement"), Range(1, 8)] private int subdivisions = 4;
 
     private double tickLengh;
 
     private double nextTickTime;
+
+    private int tickCount = 1;
 
     private void Reset()
     {
@@ -38,7 +41,7 @@ public class Scr_MetronomeV2 : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         double currentTime = AudioSettings.dspTime;
 
@@ -52,6 +55,7 @@ public class Scr_MetronomeV2 : MonoBehaviour
             }
 
             nextTickTime += tickLengh;
+            tickCount++;
         }
     }
 }

@@ -7,7 +7,7 @@ public class Scr_Sampler : MonoBehaviour
     //[SerializeField] private bool debugPlay;
 
     [Header("Config")]
-    [SerializeField] private Scr_MetronomeV2 metronome;
+    [SerializeField] private Scr_StepSequencer sequencer;
     [SerializeField] private AudioClip audioClip;
     [SerializeField, Range(1, 8)] private int nbrVoices = 2;
     [SerializeField] private Scr_SamplerVoice samplerVoicePrefab;
@@ -39,46 +39,25 @@ public class Scr_Sampler : MonoBehaviour
 
     private void OnEnable()
     {
-        if (metronome != null)
+        if (sequencer != null)
         {
-            metronome.Ticked += HandleTicked;
+            sequencer.Ticked += HandleTicked;
         }
     }
 
     private void OnDisable()
     {
-        if (metronome != null)
+        if (sequencer != null)
         {
-            metronome.Ticked -= HandleTicked;
+            sequencer.Ticked -= HandleTicked;
         }
     }
 
-    private void HandleTicked(double tickTime)
+    private void HandleTicked(double tickTime, int midiNoteNumber, double duration)
     {
-        samplerVoices[nextVoiceIndex].Play(audioClip, tickTime, attackTime, sustainTime, releaseTime);
+        float pitch = Scr_MusicMathUtils.MidiNoteToPitch(midiNoteNumber, Scr_MusicMathUtils.MidiNoteC4);
+        samplerVoices[nextVoiceIndex].Play(audioClip, pitch, tickTime, attackTime, sustainTime, releaseTime);
 
         nextVoiceIndex = (nextVoiceIndex + 1) % samplerVoices.Length;
     }
-
-
-    //private void Update()
-    //{
-    //    if (debugPlay)
-    //    {
-    //        Play();
-
-    //        debugPlay = false;
-    //    }
-    //}
-
-    //private void Play()
-    //{
-    //    samplerVoices[nextVoiceIndex].Play(audioClip, attackTime, sustainTime, releaseTime);
-
-    //    nextVoiceIndex++;
-    //    if(nextVoiceIndex >= samplerVoices.Length)
-    //    {
-    //        nextVoiceIndex = 0;
-    //    }
-    //}
 }
