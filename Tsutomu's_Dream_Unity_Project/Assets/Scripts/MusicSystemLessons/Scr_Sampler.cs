@@ -26,10 +26,8 @@ public class Scr_Sampler : MonoBehaviour
         {
             Scr_SamplerVoice samplerVoice = Instantiate(samplerVoicePrefab);
 
-            // ??
             samplerVoice.transform.parent = transform;
             samplerVoice.transform.localPosition = Vector3.zero;
-            // ??
 
             samplerVoices[i] = samplerVoice;
         }
