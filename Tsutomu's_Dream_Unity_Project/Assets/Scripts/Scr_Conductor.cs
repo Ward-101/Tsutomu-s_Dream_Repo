@@ -12,7 +12,7 @@ public class Scr_Conductor : MonoBehaviour
     public int beatCount = 0;
 
     private int lastBeatCount = 0;
-    private float secPerBeat;
+    [HideInInspector] public float secPerBeat;
     private float songPosition;
     private float dspSongTime;
     private float timeSinceLastBeat;
@@ -20,6 +20,10 @@ public class Scr_Conductor : MonoBehaviour
 
     private AudioSource audioSource;
     public static Scr_Conductor instance = null;
+
+    public delegate void HandleTick();
+
+    public event HandleTick Ticked;
 
     private void Awake()
     {
@@ -44,7 +48,11 @@ public class Scr_Conductor : MonoBehaviour
 
         if (beatCount > lastBeatCount)
         {
-            Debug.Log("beatEvent");
+            if (Ticked != null)
+            {
+                Ticked();
+            }
+
             lastBeatCount = beatCount;
         }
     }

@@ -265,6 +265,7 @@ MonoBehaviour:
   bpm: 120
   songPositionInBeats: 0
   beatCount: 0
+  secPerBeat: 0
 --- !u!1 &206236832
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,7 +401,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1207386654}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1572743978}
@@ -506,7 +507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   notePrefab: {fileID: 3818032140250658754, guid: 2d3cb902d8ab6e242bdb54b809a917c0,
     type: 3}
-  noteShownInAdvanceNbr: 3
+  noteShownInAdvanceNbr: 2
   rightNotes: []
   leftNotes: []
 --- !u!1 &1871739541
@@ -616,7 +617,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2014840577}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1572743978}
