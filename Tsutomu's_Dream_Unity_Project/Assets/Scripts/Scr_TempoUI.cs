@@ -6,11 +6,12 @@ public class Scr_TempoUI : MonoBehaviour
 {
     [Header("Edit")]
     public GameObject notePrefab;
-    [SerializeField, Range(1, 8)] private int noteShownInAdvanceNbr = 4;
+    [SerializeField, Range(0, 8)] private int noteShownInAdvanceNbr = 4;
 
     [Header("DON'T TOUCH")]
     [SerializeField] private List<GameObject> rightNotes;
     [SerializeField] private List<GameObject> leftNotes;
+    [SerializeField] private List<float> timeStartedLerping;
 
     public static Scr_TempoUI instance = null;
 
@@ -18,7 +19,7 @@ public class Scr_TempoUI : MonoBehaviour
     private Transform spawnLeftTransform = null;
     private Transform endTransform = null;
 
-    private List<float> timeStartedLerping;
+    
     private float lerpTime;
 
     private Scr_Conductor conductor;
@@ -73,11 +74,12 @@ public class Scr_TempoUI : MonoBehaviour
     {
         rightNotes = new List<GameObject>();
         leftNotes = new List<GameObject>();
+        timeStartedLerping = new List<float>();
 
-        for (int i = 0; i < noteShownInAdvanceNbr; i++)
+        for (int i = 0; i < noteShownInAdvanceNbr + 1; i++)
         {
-            GameObject noteRight = (GameObject)Instantiate(notePrefab, transform.GetChild(0).position, Quaternion.identity, transform.GetChild(0));
-            GameObject noteLeft = (GameObject)Instantiate(notePrefab, transform.GetChild(1).position, Quaternion.identity, transform.GetChild(1));
+            GameObject noteRight = (GameObject)Instantiate(notePrefab, spawnRightTransform.position, Quaternion.identity, transform.GetChild(0));
+            GameObject noteLeft = (GameObject)Instantiate(notePrefab, spawnLeftTransform.position, Quaternion.identity, transform.GetChild(1));
 
             noteLeft.GetComponent<SpriteRenderer>().flipX = true;
 
@@ -86,24 +88,55 @@ public class Scr_TempoUI : MonoBehaviour
 
             rightNotes.Add(noteRight);
             leftNotes.Add(noteLeft);
+
+
+            timeStartedLerping.Add(0f);
+            timeStartedLerping.Add(0f);
         }
 
-        timeStartedLerping = new List<float>();
     }
 
     private void SpawnNotes()
     {
         if (shouldlerp)
         {
-            for (int i = 0; i < noteShownInAdvanceNbr; i++)
+            for (int i = 0; i < noteShownInAdvanceNbr + 1; i++)
             {
                 if (!rightNotes[i].activeInHierarchy)
                 {
                     rightNotes[i].SetActive(true);
-                    timeStartedLerping.Insert(i,(float)AudioSettings.dspTime);
+                    timeStartedLerping[i] = (float)AudioSettings.dspTime;
                     break;
                 }
-            } 
+                else
+                {
+                    if (rightNotes[i].transform.position == endTransform.position)
+                    {
+                        rightNotes[i].transform.position = spawnRightTransform.position;
+                        timeStartedLerping[i] = (float)AudioSettings.dspTime;
+                        break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < noteShownInAdvanceNbr + 1; i++)
+            {
+                if (!leftNotes[i].activeInHierarchy)
+                {
+                    leftNotes[i].SetActive(true);
+                    timeStartedLerping[i + noteShownInAdvanceNbr] = (float)AudioSettings.dspTime;
+                    break;
+                }
+                else
+                {
+                    if (leftNotes[i].transform.position == endTransform.position)
+                    {
+                        leftNotes[i].transform.position = spawnLeftTransform.position;
+                        timeStartedLerping[i + noteShownInAdvanceNbr] = (float)AudioSettings.dspTime;
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -115,7 +148,7 @@ public class Scr_TempoUI : MonoBehaviour
         Vector2 endPos = new Vector2(endTransform.position.x, endTransform.position.y);
 
 
-        for (int i = 0; i < noteShownInAdvanceNbr; i++)
+        for (int i = 0; i < noteShownInAdvanceNbr + 1; i++)
         {
             if (rightNotes[i].activeInHierarchy)
             {
