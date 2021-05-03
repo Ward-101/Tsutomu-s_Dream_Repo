@@ -51,7 +51,7 @@ public class Scr_TempoUI : MonoBehaviour
 
     private void Update()
     {
-        if (conductor.beatCount >= 4 && !shouldlerp)
+        if (conductor.beatCount >= 1 && !shouldlerp)
         {
             StartLerp();
         }
@@ -124,7 +124,7 @@ public class Scr_TempoUI : MonoBehaviour
                 if (!leftNotes[i].activeInHierarchy)
                 {
                     leftNotes[i].SetActive(true);
-                    timeStartedLerping[i + noteShownInAdvanceNbr] = (float)AudioSettings.dspTime;
+                    timeStartedLerping[i + noteShownInAdvanceNbr + 1] = (float)AudioSettings.dspTime;
                     break;
                 }
                 else
@@ -132,7 +132,7 @@ public class Scr_TempoUI : MonoBehaviour
                     if (leftNotes[i].transform.position == endTransform.position)
                     {
                         leftNotes[i].transform.position = spawnLeftTransform.position;
-                        timeStartedLerping[i + noteShownInAdvanceNbr] = (float)AudioSettings.dspTime;
+                        timeStartedLerping[i + noteShownInAdvanceNbr + 1] = (float)AudioSettings.dspTime;
                         break;
                     }
                 }
@@ -158,7 +158,7 @@ public class Scr_TempoUI : MonoBehaviour
 
             if (leftNotes[i].activeInHierarchy)
             {
-                leftNotes[i].transform.position = Lerp(spawnLeftPos, endPos, 0f, lerpTime);
+                leftNotes[i].transform.position = Lerp(spawnLeftPos, endPos, timeStartedLerping[i + noteShownInAdvanceNbr + 1], lerpTime);
             }
         }
     }
