@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Scr_TempoUI : MonoBehaviour
@@ -13,18 +12,15 @@ public class Scr_TempoUI : MonoBehaviour
     [SerializeField] private List<GameObject> leftNotes;
     [SerializeField] private List<float> timeStartedLerping;
 
-    public static Scr_TempoUI instance = null;
-
     private Transform spawnRightTransform = null;
     private Transform spawnLeftTransform = null;
     private Transform endTransform = null;
 
-    
     private float lerpTime;
-
+    [SerializeField] private bool shouldlerp = false;
     private Scr_Conductor conductor;
 
-    private bool shouldlerp = false;
+    public static Scr_TempoUI instance = null;
 
     private void Awake()
     {
@@ -48,7 +44,6 @@ public class Scr_TempoUI : MonoBehaviour
     }
 
 
-
     private void Update()
     {
         if (conductor.beatCount >= 1 && !shouldlerp)
@@ -60,6 +55,14 @@ public class Scr_TempoUI : MonoBehaviour
         {
             LerpNotes();
         }
+        else
+        {
+            for (int i = 0; i < noteShownInAdvanceNbr +1; i++)
+            {
+                leftNotes[i].SetActive(false);
+                rightNotes[i].SetActive(false);
+            }
+        }
     }
 
     private void StartLerp()
@@ -67,8 +70,6 @@ public class Scr_TempoUI : MonoBehaviour
         lerpTime = conductor.secPerBeat * noteShownInAdvanceNbr;
         shouldlerp = true;
     }
-
-        
 
     private void SetNotes()
     {
@@ -139,7 +140,6 @@ public class Scr_TempoUI : MonoBehaviour
             }
         }
     }
-
 
     private void LerpNotes()
     {

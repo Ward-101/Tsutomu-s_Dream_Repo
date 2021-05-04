@@ -9,16 +9,14 @@ public class Scr_Conductor : MonoBehaviour
 
     [Header("DON'T TOUCH")]
     public float songPositionInBeats;
+    public float beatProgression;
     public int beatCount = 0;
 
     private int lastBeatCount = 0;
     [HideInInspector] public float secPerBeat;
     private float songPosition;
     private float dspSongTime;
-    private float timeSinceLastBeat;
-    private float currentBeatPosition = 0f;
 
-    private AudioSource audioSource;
     public static Scr_Conductor instance = null;
 
     public delegate void HandleTick();
@@ -43,6 +41,7 @@ public class Scr_Conductor : MonoBehaviour
     {
         songPosition = (float)(AudioSettings.dspTime - dspSongTime);
         songPositionInBeats = songPosition / secPerBeat;
+        beatProgression = songPositionInBeats % 1;
 
         beatCount = Mathf.FloorToInt(songPositionInBeats);
 
