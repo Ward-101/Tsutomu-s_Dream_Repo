@@ -6,6 +6,7 @@ public class Scr_Controller : MonoBehaviour
 {
     [Header("Edit")]
     [SerializeField, Range(0.001f, 0.499f)] private float inputTiming = 0.1f;
+    [SerializeField, Range(0.001f, 1f)] private float zoomToBeatZoomScale = 1f;
 
     [Header("Inputs")]
     [SerializeField] private bool aInput = false;
@@ -20,6 +21,7 @@ public class Scr_Controller : MonoBehaviour
     public static Scr_Controller instance = null;
     private Scr_Conductor conductor;
     private Scr_Partition partition;
+    private Scr_CameraManager cameraManager;
 
 
     private void Awake()
@@ -31,6 +33,7 @@ public class Scr_Controller : MonoBehaviour
     {
         conductor = Scr_Conductor.instance;
         partition = Scr_Partition.instance;
+        cameraManager = Scr_CameraManager.instance;
     }
 
     private void Update()
@@ -84,6 +87,7 @@ public class Scr_Controller : MonoBehaviour
                         if (inputIndex == activeSlot.possibleInput[i])
                         {
                             partition.activeSlot = activeSlot.linkedSlot[i];
+                            cameraManager.StartZoomToBeat(zoomToBeatZoomScale);
                             break;
                         }
                         else if (inputIndex != activeSlot.possibleInput[i] && i == activeSlot.possibleInput.Length - 1)
