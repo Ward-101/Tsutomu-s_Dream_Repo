@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Scr_Partition : MonoBehaviour
 {
-    [SerializeField] private GameObject startSlot = null;
+    public GameObject startSlot;
 
     [Header("DON'T TOUCH")]
     public GameObject activeSlot;

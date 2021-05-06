@@ -8,21 +8,23 @@ public class Scr_Controller : MonoBehaviour
     [SerializeField, Range(0.001f, 0.499f)] private float inputTiming = 0.1f;
     [SerializeField, Range(0.001f, 1f)] private float zoomToBeatZoomScale = 1f;
 
-    [Header("Inputs")]
+    [Header("Inputs : DON'T TOUCH")]
     [SerializeField] private bool aInput = false;
     [SerializeField] private bool bInput = false;
     [SerializeField] private bool xInput = false;
     [SerializeField] private bool yInput = false;
-
-    [Header("States")]
-    [SerializeField] private bool isLookingForInputs = false;
     [SerializeField] private int inputIndex = -1;
 
+    [Header("States : DON'T TOUCH")]
+    [SerializeField] private bool isLookingForInputs = false;
+    [SerializeField] private bool asHitNoteInBeat = false;
+
     public static Scr_Controller instance = null;
+    private bool canResetAsHitNotInBeat = false;
+
     private Scr_Conductor conductor;
     private Scr_Partition partition;
     private Scr_CameraManager cameraManager;
-
 
     private void Awake()
     {
@@ -61,51 +63,91 @@ public class Scr_Controller : MonoBehaviour
 
     private void LookForInput()
     {
-        if ((0f < conductor.beatProgression && conductor.beatProgression < inputTiming) || (1f - inputTiming < conductor.beatProgression && conductor.beatProgression < 1f))
+        if (!conductor.isBreak)
         {
-            isLookingForInputs = true;
-        }
-        else
-        {
-            isLookingForInputs = false;
-        }
-    }
-
-
-    private void InputEvent()
-    {
-        if (aInput || bInput || xInput || yInput)
-        {
-            if (isLookingForInputs)
+            if (conductor.beatProgression <= inputTiming || 1f - inputTiming <= conductor.beatProgression)
             {
-                Scr_SlotBehavior activeSlot = partition.activeSlot.GetComponent<Scr_SlotBehavior>();
+                if (canResetAsHitNotInBeat)
+                {
+                    asHitNoteInBeat = false;
+                    canResetAsHitNotInBeat = false;
+                }
 
-                if (activeSlot.possibleInput.Length > 0)
-                {
-                    for (int i = 0; i < activeSlot.possibleInput.Length; i++)
-                    {
-                        if (inputIndex == activeSlot.possibleInput[i])
-                        {
-                            partition.activeSlot = activeSlot.linkedSlot[i];
-                            cameraManager.StartZoomToBeat(zoomToBeatZoomScale);
-                            break;
-                        }
-                        else if (inputIndex != activeSlot.possibleInput[i] && i == activeSlot.possibleInput.Length - 1)
-                        {
-                            print("ENDPHASE 1");
-                        }
-                    }
-                }
-                else
-                {
-                    print("ENDPHASE 2");
-                }
-                
+
+                isLookingForInputs = true;
             }
             else
             {
-                print("ENDPHASE 3");
+                isLookingForInputs = false;
+
+                if (inputTiming < conductor.beatProgression && conductor.beatProgression < 1f - inputTiming)
+                {
+                    if (!asHitNoteInBeat)
+                    {
+                        EndPhase();
+                    }
+                    else
+                    {
+                        canResetAsHitNotInBeat = true;
+                    }
+                }
             }
         }
+        
+    }
+
+    private void InputEvent()
+    {
+        if (!conductor.isBreak)
+        {
+            if (aInput || bInput || xInput || yInput)
+            {
+                if (isLookingForInputs)
+                {
+                    asHitNoteInBeat = true;
+                    Scr_SlotBehavior activeSlot = partition.activeSlot.GetComponent<Scr_SlotBehavior>();
+
+                    if (activeSlot.possibleInput.Length > 0)
+                    {
+                        for (int i = 0; i < activeSlot.possibleInput.Length; i++)
+                        {
+                            if (inputIndex == activeSlot.possibleInput[i])
+                            {
+                                partition.activeSlot = activeSlot.linkedSlot[i];
+                                cameraManager.StartZoomToBeat(zoomToBeatZoomScale);
+                                break;
+                            }
+                            else if (inputIndex != activeSlot.possibleInput[i] && i == activeSlot.possibleInput.Length - 1)
+                            {
+                                EndPhase();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        EndPhase();
+                    }
+
+                }
+                else
+                {
+                    EndPhase();
+                }
+            }
+        }
+        
+    }
+
+    private void EndPhase()
+    {
+        partition.activeSlot = partition.startSlot;
+
+        if (conductor.endBreakText.gameObject.activeInHierarchy)
+        {
+            conductor.endBreakText.gameObject.SetActive(false);
+        }
+
+        conductor.isEndBreak = false;
+        conductor.isBreak = true;
     }
 }

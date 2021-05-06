@@ -12,12 +12,16 @@ public class Scr_TempoUI : MonoBehaviour
     [SerializeField] private List<GameObject> leftNotes;
     [SerializeField] private List<float> timeStartedLerping;
 
+    [Header("States : DON'T TOUCH")]
+    [SerializeField] private bool shouldlerp = false;
+    //[SerializeField] private bool shouldSpawnNotes = true;
+
     private Transform spawnRightTransform = null;
     private Transform spawnLeftTransform = null;
     private Transform endTransform = null;
 
     private float lerpTime;
-    [SerializeField] private bool shouldlerp = false;
+    
     private Scr_Conductor conductor;
 
     public static Scr_TempoUI instance = null;
@@ -46,9 +50,13 @@ public class Scr_TempoUI : MonoBehaviour
 
     private void Update()
     {
-        if (conductor.beatCount >= 1 && !shouldlerp)
+        if (conductor.isEndBreak && !shouldlerp)
         {
             StartLerp();
+        }
+        else if (conductor.isBreak && !conductor.isEndBreak)
+        {
+            EndLerp();
         }
 
         if (shouldlerp)
@@ -69,6 +77,11 @@ public class Scr_TempoUI : MonoBehaviour
     {
         lerpTime = conductor.secPerBeat * noteShownInAdvanceNbr;
         shouldlerp = true;
+    }
+
+    private void EndLerp()
+    {
+        shouldlerp = false;
     }
 
     private void SetNotes()

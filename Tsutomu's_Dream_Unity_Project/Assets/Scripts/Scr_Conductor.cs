@@ -1,26 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Scr_Conductor : MonoBehaviour
 {
     [Header("Edit")]
     [SerializeField] private float bpm = 120.0f;
+    [SerializeField] private float breakBeatNbr = 3;
+    [SerializeField] private int endBreakBeatNbr = 4;
+
+    [Header("States : DON'T TOUCH")]
+    public bool isBreak = true;
+    public bool isEndBreak = false;
 
     [Header("DON'T TOUCH")]
     public float songPositionInBeats;
     public float beatProgression;
     public int beatCount = 0;
 
+    [Header("Requirements")]
+    public TMP_Text endBreakText;
+
+    private int breakCurrentBeat = 1;
+    private int endBreakCurrentBeat = 1;
     private int lastBeatCount = 0;
     [HideInInspector] public float secPerBeat;
     private float songPosition;
     private float dspSongTime;
 
+
     public static Scr_Conductor instance = null;
 
     public delegate void HandleTick();
-
     public event HandleTick Ticked;
 
     private void Awake()
@@ -52,7 +64,57 @@ public class Scr_Conductor : MonoBehaviour
                 Ticked();
             }
 
+            BreakManager();
+            
             lastBeatCount = beatCount;
+        }
+    }
+
+    private void BreakManager()
+    {
+        if (isBreak)
+        {
+            if (!isEndBreak)
+            {
+                if (breakCurrentBeat < breakBeatNbr - 1)
+                {
+                    breakCurrentBeat++;
+                }
+                else
+                {
+                    breakCurrentBeat = 1;
+                    isEndBreak = true;
+                }
+            }
+            else
+            {
+                EndBreak();
+            }
+        }
+        else
+        {
+            endBreakText.gameObject.SetActive(false);
+        }
+    }
+
+    private void EndBreak()
+    {
+        if (!endBreakText.gameObject.activeInHierarchy)
+        {
+            endBreakText.gameObject.SetActive(true);
+            endBreakCurrentBeat = 1;
+        }
+
+        if (endBreakCurrentBeat < endBreakBeatNbr)
+        {
+            endBreakText.text = endBreakCurrentBeat.ToString();
+            endBreakCurrentBeat++;
+        }
+        else
+        {
+            endBreakText.text = "GO";
+            isBreak = false;
+            isEndBreak = false;
         }
     }
 }
