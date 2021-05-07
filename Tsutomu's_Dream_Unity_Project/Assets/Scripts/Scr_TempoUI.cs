@@ -16,9 +16,9 @@ public class Scr_TempoUI : MonoBehaviour
     [SerializeField] private bool shouldlerp = false;
     //[SerializeField] private bool shouldSpawnNotes = true;
 
-    private Transform spawnRightTransform = null;
-    private Transform spawnLeftTransform = null;
-    private Transform endTransform = null;
+    private RectTransform spawnRightTransform = null;
+    private RectTransform spawnLeftTransform = null;
+    private RectTransform endTransform = null;
 
     private float lerpTime;
     
@@ -35,9 +35,9 @@ public class Scr_TempoUI : MonoBehaviour
     {
         conductor = Scr_Conductor.instance;
 
-        spawnRightTransform = transform.GetChild(2);
-        spawnLeftTransform = transform.GetChild(3);
-        endTransform = transform.GetChild(4);
+        spawnRightTransform = transform.GetChild(2).GetComponent<RectTransform>();
+        spawnLeftTransform = transform.GetChild(3).GetComponent<RectTransform>();
+        endTransform = transform.GetChild(4).GetComponent<RectTransform>();
 
         SetNotes();
 
@@ -95,14 +95,13 @@ public class Scr_TempoUI : MonoBehaviour
             GameObject noteRight = (GameObject)Instantiate(notePrefab, spawnRightTransform.position, Quaternion.identity, transform.GetChild(0));
             GameObject noteLeft = (GameObject)Instantiate(notePrefab, spawnLeftTransform.position, Quaternion.identity, transform.GetChild(1));
 
-            noteLeft.GetComponent<SpriteRenderer>().flipX = true;
+            noteLeft.transform.eulerAngles = new Vector2(0, 180);
 
             noteRight.SetActive(false);
             noteLeft.SetActive(false);
 
             rightNotes.Add(noteRight);
             leftNotes.Add(noteLeft);
-
 
             timeStartedLerping.Add(0f);
             timeStartedLerping.Add(0f);
@@ -119,14 +118,15 @@ public class Scr_TempoUI : MonoBehaviour
                 if (!rightNotes[i].activeInHierarchy)
                 {
                     rightNotes[i].SetActive(true);
+                    rightNotes[i].GetComponent<RectTransform>().position = spawnRightTransform.position;
                     timeStartedLerping[i] = (float)AudioSettings.dspTime;
                     break;
                 }
                 else
                 {
-                    if (rightNotes[i].transform.position == endTransform.position)
+                    if (rightNotes[i].GetComponent<RectTransform>().position == endTransform.position)
                     {
-                        rightNotes[i].transform.position = spawnRightTransform.position;
+                        rightNotes[i].GetComponent<RectTransform>().position = spawnRightTransform.position;
                         timeStartedLerping[i] = (float)AudioSettings.dspTime;
                         break;
                     }
@@ -138,20 +138,31 @@ public class Scr_TempoUI : MonoBehaviour
                 if (!leftNotes[i].activeInHierarchy)
                 {
                     leftNotes[i].SetActive(true);
+                    leftNotes[i].GetComponent<RectTransform>().position = spawnLeftTransform.position;
                     timeStartedLerping[i + noteShownInAdvanceNbr + 1] = (float)AudioSettings.dspTime;
                     break;
                 }
                 else
                 {
-                    if (leftNotes[i].transform.position == endTransform.position)
+                    if (leftNotes[i].GetComponent<RectTransform>().position == endTransform.position)
                     {
-                        leftNotes[i].transform.position = spawnLeftTransform.position;
+                        leftNotes[i].GetComponent<RectTransform>().position = spawnLeftTransform.position;
                         timeStartedLerping[i + noteShownInAdvanceNbr + 1] = (float)AudioSettings.dspTime;
                         break;
                     }
                 }
             }
         }
+    }
+
+    private void HeartBeat()
+    {
+
+    }
+
+    private void StartHeartBeat()
+    {
+
     }
 
     private void LerpNotes()
