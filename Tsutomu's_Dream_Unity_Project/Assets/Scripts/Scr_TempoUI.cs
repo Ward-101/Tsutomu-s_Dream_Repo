@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Scr_TempoUI : MonoBehaviour
 {
@@ -7,21 +8,34 @@ public class Scr_TempoUI : MonoBehaviour
     public GameObject notePrefab;
     [SerializeField, Range(0, 8)] private int noteShownInAdvanceNbr = 4;
 
+    [SerializeField] private Color neonBlue;
+    [SerializeField] private Color neonYellow;
+
+    [SerializeField] private AnimationCurve zoomCurve;
+    [SerializeField, Range(0.001f, 1f)] private float zoomTimeScale = 1f;
+    [SerializeField] private float zoomScale;
+
+    [Header("States : DON'T TOUCH")]
+    [SerializeField] private bool shouldlerp = false;
+    [SerializeField] private bool shouldScaleHeart = false;
+
     [Header("DON'T TOUCH")]
     [SerializeField] private List<GameObject> rightNotes;
     [SerializeField] private List<GameObject> leftNotes;
     [SerializeField] private List<float> timeStartedLerping;
 
-    [Header("States : DON'T TOUCH")]
-    [SerializeField] private bool shouldlerp = false;
-    //[SerializeField] private bool shouldSpawnNotes = true;
+
 
     private RectTransform spawnRightTransform = null;
     private RectTransform spawnLeftTransform = null;
     private RectTransform endTransform = null;
+    private Image trackImage = null;
 
     private float lerpTime;
-    
+    private int spriteSwapNbr = 0;
+    private float timeStartedHeartBeat;
+    private Vector2 heartBaseScale;
+
     private Scr_Conductor conductor;
 
     public static Scr_TempoUI instance = null;
@@ -35,15 +49,20 @@ public class Scr_TempoUI : MonoBehaviour
     {
         conductor = Scr_Conductor.instance;
 
-        spawnRightTransform = transform.GetChild(2).GetComponent<RectTransform>();
-        spawnLeftTransform = transform.GetChild(3).GetComponent<RectTransform>();
-        endTransform = transform.GetChild(4).GetComponent<RectTransform>();
+        spawnRightTransform = transform.GetChild(3).GetComponent<RectTransform>();
+        spawnLeftTransform = transform.GetChild(4).GetComponent<RectTransform>();
+        endTransform = transform.GetChild(5).GetComponent<RectTransform>();
+
+        trackImage = transform.GetChild(0).GetComponent<Image>();
+
+        heartBaseScale = endTransform.sizeDelta;
 
         SetNotes();
 
         if (conductor != null)
         {
             conductor.Ticked += SpawnNotes;
+            conductor.Ticked += StartHeartBeat;
         }
     }
 
@@ -71,8 +90,48 @@ public class Scr_TempoUI : MonoBehaviour
                 rightNotes[i].SetActive(false);
             }
         }
+
+        if (shouldScaleHeart)
+        {
+            HeartBeat();
+        }
     }
 
+    private void StartHeartBeat()
+    {
+        if (spriteSwapNbr == 0)
+        {
+            endTransform.gameObject.GetComponent<Image>().color = new Color(neonBlue.r, neonBlue.g, neonBlue.b, 250);
+            trackImage.color = neonBlue;
+            spriteSwapNbr++;
+        }
+        else
+        {
+            endTransform.gameObject.GetComponent<Image>().color = new Color(neonYellow.r, neonYellow.g, neonYellow.b, 250);
+            trackImage.color = neonYellow;
+            spriteSwapNbr--;
+        }
+
+        timeStartedHeartBeat = (float)AudioSettings.dspTime;
+        shouldScaleHeart = true;
+    }
+
+    private void HeartBeat()
+    {
+        float normalizedCurveTime = ((float)AudioSettings.dspTime - timeStartedHeartBeat) / (conductor.secPerBeat * zoomTimeScale);
+
+        if (normalizedCurveTime <= 1)
+        {
+            endTransform.sizeDelta = heartBaseScale * ((zoomCurve.Evaluate(normalizedCurveTime) * zoomScale + 1));
+        }
+        else
+        {
+            endTransform.sizeDelta = heartBaseScale;
+            shouldScaleHeart = false;
+        }
+    }
+
+    #region Lerp Func
     private void StartLerp()
     {
         lerpTime = conductor.secPerBeat * noteShownInAdvanceNbr;
@@ -92,8 +151,8 @@ public class Scr_TempoUI : MonoBehaviour
 
         for (int i = 0; i < noteShownInAdvanceNbr + 1; i++)
         {
-            GameObject noteRight = (GameObject)Instantiate(notePrefab, spawnRightTransform.position, Quaternion.identity, transform.GetChild(0));
-            GameObject noteLeft = (GameObject)Instantiate(notePrefab, spawnLeftTransform.position, Quaternion.identity, transform.GetChild(1));
+            GameObject noteRight = (GameObject)Instantiate(notePrefab, spawnRightTransform.position, Quaternion.identity, transform.GetChild(1));
+            GameObject noteLeft = (GameObject)Instantiate(notePrefab, spawnLeftTransform.position, Quaternion.identity, transform.GetChild(2));
 
             noteLeft.transform.eulerAngles = new Vector2(0, 180);
 
@@ -155,15 +214,6 @@ public class Scr_TempoUI : MonoBehaviour
         }
     }
 
-    private void HeartBeat()
-    {
-
-    }
-
-    private void StartHeartBeat()
-    {
-
-    }
 
     private void LerpNotes()
     {
@@ -197,5 +247,5 @@ public class Scr_TempoUI : MonoBehaviour
 
         return result;
     }
-
+    #endregion
 }

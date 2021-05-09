@@ -7,7 +7,7 @@ public class Scr_Conductor : MonoBehaviour
 {
     [Header("Edit")]
     [SerializeField] private float bpm = 120.0f;
-    [SerializeField] private float breakBeatNbr = 3;
+    [SerializeField] private int breakBeatNbr = 3;
     [SerializeField] private int endBreakBeatNbr = 4;
 
     [Header("States : DON'T TOUCH")]
@@ -29,6 +29,7 @@ public class Scr_Conductor : MonoBehaviour
     private float songPosition;
     private float dspSongTime;
 
+    private Scr_PossibleInputUI possibleInputUI;
 
     public static Scr_Conductor instance = null;
 
@@ -42,6 +43,8 @@ public class Scr_Conductor : MonoBehaviour
 
     private void Start()
     {
+        possibleInputUI = Scr_PossibleInputUI.instance;
+
         secPerBeat = 60f / bpm;
 
         dspSongTime = (float)AudioSettings.dspTime;
@@ -103,6 +106,8 @@ public class Scr_Conductor : MonoBehaviour
         {
             endBreakText.gameObject.SetActive(true);
             endBreakCurrentBeat = 1;
+
+            possibleInputUI.DisplayPossibleInput();
         }
 
         if (endBreakCurrentBeat < endBreakBeatNbr)

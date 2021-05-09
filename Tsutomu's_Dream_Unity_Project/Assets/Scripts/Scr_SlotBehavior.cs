@@ -5,7 +5,7 @@ using UnityEngine;
 public class Scr_SlotBehavior : MonoBehaviour
 {
     [Header("Edit")]
-    [Tooltip("A = 0 / B = 1 / X = 2 / Y = 3")] public int inputIndex = 0;
+    [Tooltip("A = 0 / B = 1 / X = 2 / Y = 3"), Range(0,3)] public int inputIndex = 0;
     public GameObject[] linkedSlot;
 
     [HideInInspector] public int[] possibleInput;

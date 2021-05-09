@@ -24,7 +24,8 @@ public class Scr_Controller : MonoBehaviour
 
     private Scr_Conductor conductor;
     private Scr_Partition partition;
-    private Scr_CameraManager cameraManager;
+    private Scr_PropsOnBeat propsOnBeat;
+    private Scr_PossibleInputUI possibleInputUI;
 
     private void Awake()
     {
@@ -35,7 +36,8 @@ public class Scr_Controller : MonoBehaviour
     {
         conductor = Scr_Conductor.instance;
         partition = Scr_Partition.instance;
-        cameraManager = Scr_CameraManager.instance;
+        propsOnBeat = Scr_PropsOnBeat.instance;
+        possibleInputUI = Scr_PossibleInputUI.instance;
     }
 
     private void Update()
@@ -114,7 +116,9 @@ public class Scr_Controller : MonoBehaviour
                             if (inputIndex == activeSlot.possibleInput[i])
                             {
                                 partition.activeSlot = activeSlot.linkedSlot[i];
-                                cameraManager.StartZoomToBeat(zoomToBeatZoomScale);
+                                possibleInputUI.DisplayPossibleInput();
+
+                                propsOnBeat.StartZoomToBeat(zoomToBeatZoomScale);
                                 break;
                             }
                             else if (inputIndex != activeSlot.possibleInput[i] && i == activeSlot.possibleInput.Length - 1)
@@ -140,14 +144,20 @@ public class Scr_Controller : MonoBehaviour
 
     private void EndPhase()
     {
+        //Start conductor's break phase
+        conductor.isEndBreak = false;
+        conductor.isBreak = true;
+
+        //Rewind the partition
         partition.activeSlot = partition.startSlot;
 
+        //Set all possible input display to OFF
+        possibleInputUI.HideAllPossibleInput();
+
+        //Set break text to false in case of first note missed
         if (conductor.endBreakText.gameObject.activeInHierarchy)
         {
             conductor.endBreakText.gameObject.SetActive(false);
         }
-
-        conductor.isEndBreak = false;
-        conductor.isBreak = true;
     }
 }
