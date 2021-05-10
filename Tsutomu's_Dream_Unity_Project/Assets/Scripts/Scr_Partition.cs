@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Scr_Partition : MonoBehaviour
 {
@@ -18,6 +16,7 @@ public class Scr_Partition : MonoBehaviour
 
     private void Start()
     {
+        //Set first active slot to the start slot
         activeSlot = startSlot;
     }
 }

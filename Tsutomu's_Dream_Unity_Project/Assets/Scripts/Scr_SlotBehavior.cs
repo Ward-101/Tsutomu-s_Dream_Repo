@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Scr_SlotBehavior : MonoBehaviour
 {
@@ -14,10 +12,13 @@ public class Scr_SlotBehavior : MonoBehaviour
 
     private void Start()
     {
+        #region Instances acquirement
         controller = Scr_Controller.instance;
+        #endregion
 
         possibleInput = new int[linkedSlot.Length];
 
+        //Check every linked slot to make a list of all possible input the player can press to procede to the next slot
         if (linkedSlot.Length > 0)
         {
             for (int i = 0; i < linkedSlot.Length; i++)

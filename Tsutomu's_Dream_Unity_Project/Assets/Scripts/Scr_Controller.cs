@@ -6,6 +6,7 @@ public class Scr_Controller : MonoBehaviour
 {
     [Header("Edit")]
     [SerializeField, Range(0.001f, 0.499f)] private float inputTiming = 0.1f;
+    [SerializeField, Range(0f, 100f)] private float baseDamage = 5f;
     [SerializeField, Range(0.001f, 1f)] private float zoomToBeatZoomScale = 1f;
 
     [Header("Inputs : DON'T TOUCH")]
@@ -19,13 +20,17 @@ public class Scr_Controller : MonoBehaviour
     [SerializeField] private bool isLookingForInputs = false;
     [SerializeField] private bool asHitNoteInBeat = false;
 
+    [Header("DON'T TOUCH")]
+    [SerializeField] private List<int> chain;
+
     public static Scr_Controller instance = null;
     private bool canResetAsHitNotInBeat = false;
-
+     
     private Scr_Conductor conductor;
     private Scr_Partition partition;
     private Scr_PropsOnBeat propsOnBeat;
     private Scr_PossibleInputUI possibleInputUI;
+    private Scr_DummyHealthManager dummyHealthManager;
 
     private void Awake()
     {
@@ -38,6 +43,9 @@ public class Scr_Controller : MonoBehaviour
         partition = Scr_Partition.instance;
         propsOnBeat = Scr_PropsOnBeat.instance;
         possibleInputUI = Scr_PossibleInputUI.instance;
+        dummyHealthManager = Scr_DummyHealthManager.instance;
+
+        chain = new List<int>();
     }
 
     private void Update()
@@ -115,10 +123,14 @@ public class Scr_Controller : MonoBehaviour
                         {
                             if (inputIndex == activeSlot.possibleInput[i])
                             {
+                                propsOnBeat.StartZoomToBeat(zoomToBeatZoomScale);
+
                                 partition.activeSlot = activeSlot.linkedSlot[i];
+                                chain.Add(activeSlot.inputIndex);
+
                                 possibleInputUI.DisplayPossibleInput();
 
-                                propsOnBeat.StartZoomToBeat(zoomToBeatZoomScale);
+                                dummyHealthManager.TakeDamage(baseDamage + (baseDamage * (0.2f * chain.Count - 1)));
                                 break;
                             }
                             else if (inputIndex != activeSlot.possibleInput[i] && i == activeSlot.possibleInput.Length - 1)
@@ -142,7 +154,7 @@ public class Scr_Controller : MonoBehaviour
         
     }
 
-    private void EndPhase()
+    public void EndPhase()
     {
         //Start conductor's break phase
         conductor.isEndBreak = false;
@@ -150,6 +162,9 @@ public class Scr_Controller : MonoBehaviour
 
         //Rewind the partition
         partition.activeSlot = partition.startSlot;
+
+        //Clear the note from the chain
+        chain.Clear();
 
         //Set all possible input display to OFF
         possibleInputUI.HideAllPossibleInput();
