@@ -183,7 +183,7 @@ public class Scr_TempoUI : MonoBehaviour
                 }
                 else
                 {
-                    if (rightNotes[i].GetComponent<RectTransform>().position == endTransform.position)
+                    if (rightNotes[i].GetComponent<RectTransform>().position.x == endTransform.position.x)
                     {
                         rightNotes[i].GetComponent<RectTransform>().position = spawnRightTransform.position;
                         timeStartedLerping[i] = (float)AudioSettings.dspTime;
@@ -203,7 +203,7 @@ public class Scr_TempoUI : MonoBehaviour
                 }
                 else
                 {
-                    if (leftNotes[i].GetComponent<RectTransform>().position == endTransform.position)
+                    if (leftNotes[i].GetComponent<RectTransform>().position.x == endTransform.position.x)
                     {
                         leftNotes[i].GetComponent<RectTransform>().position = spawnLeftTransform.position;
                         timeStartedLerping[i + noteShownInAdvanceNbr + 1] = (float)AudioSettings.dspTime;

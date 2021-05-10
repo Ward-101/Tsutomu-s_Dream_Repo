@@ -660,7 +660,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &196003838
 GameObject:
@@ -2316,7 +2316,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 1030, y: -75}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1681031487
 GameObject:
@@ -2759,7 +2759,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1030, y: -75}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1988224418
 GameObject:
@@ -3023,7 +3023,7 @@ PrefabInstance:
     - target: {fileID: 1344795331690979434, guid: 05896d00a78660343bbe3f33061cd0e3,
         type: 3}
       propertyPath: inputIndex
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1344795331708476132, guid: 05896d00a78660343bbe3f33061cd0e3,
         type: 3}
@@ -3033,12 +3033,12 @@ PrefabInstance:
     - target: {fileID: 1344795332043196273, guid: 05896d00a78660343bbe3f33061cd0e3,
         type: 3}
       propertyPath: inputIndex
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1344795332080003612, guid: 05896d00a78660343bbe3f33061cd0e3,
         type: 3}
       propertyPath: inputIndex
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1344795332753555591, guid: 05896d00a78660343bbe3f33061cd0e3,
         type: 3}
@@ -3048,12 +3048,12 @@ PrefabInstance:
     - target: {fileID: 1344795333066778477, guid: 05896d00a78660343bbe3f33061cd0e3,
         type: 3}
       propertyPath: inputIndex
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1344795333085007544, guid: 05896d00a78660343bbe3f33061cd0e3,
         type: 3}
       propertyPath: inputIndex
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1344795333125772423, guid: 05896d00a78660343bbe3f33061cd0e3,
         type: 3}
