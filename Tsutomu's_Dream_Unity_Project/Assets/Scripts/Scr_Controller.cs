@@ -31,6 +31,7 @@ public class Scr_Controller : MonoBehaviour
     private Scr_PropsOnBeat propsOnBeat;
     private Scr_PossibleInputUI possibleInputUI;
     private Scr_DummyHealthManager dummyHealthManager;
+    private Scr_ChainInputUI chainInputUI;
 
     private void Awake()
     {
@@ -39,11 +40,14 @@ public class Scr_Controller : MonoBehaviour
 
     private void Start()
     {
+        #region INSTANCES ACQUIREMENT
         conductor = Scr_Conductor.instance;
         partition = Scr_Partition.instance;
         propsOnBeat = Scr_PropsOnBeat.instance;
         possibleInputUI = Scr_PossibleInputUI.instance;
         dummyHealthManager = Scr_DummyHealthManager.instance;
+        chainInputUI = Scr_ChainInputUI.instance;
+        #endregion
 
         chain = new List<int>();
     }
@@ -126,7 +130,9 @@ public class Scr_Controller : MonoBehaviour
                                 propsOnBeat.StartZoomToBeat(zoomToBeatZoomScale);
                                 
                                 partition.activeSlot = activeSlot.linkedSlot[i];
+
                                 chain.Add(partition.activeSlot.GetComponent<Scr_SlotBehavior>().inputIndex);
+                                UpdateChainInputUI();
 
                                 possibleInputUI.DisplayPossibleInput();
 
@@ -264,6 +270,9 @@ public class Scr_Controller : MonoBehaviour
         //Clear the note from the chain
         chain.Clear();
 
+        //Clear chainUI
+        chainInputUI.clearInputSlots();
+
         //Set all possible input display to OFF
         possibleInputUI.HideAllPossibleInput();
 
@@ -272,5 +281,28 @@ public class Scr_Controller : MonoBehaviour
         {
             conductor.endBreakText.gameObject.SetActive(false);
         }
+    }
+
+    private void UpdateChainInputUI()
+    {
+        chainInputUI.chainInputSlots[chain.Count].gameObject.SetActive(true);
+
+        if (chain[chain.Count] == 0)
+        {
+            chainInputUI.chainInputSlots[chain.Count].sprite = chainInputUI.aChainInput;
+        }
+        else if (chain[chain.Count] == 1)
+        {
+            chainInputUI.chainInputSlots[chain.Count].sprite = chainInputUI.bChainInput;
+        }
+        else if (chain[chain.Count] == 2)
+        {
+            chainInputUI.chainInputSlots[chain.Count].sprite = chainInputUI.xChainInput;
+        }
+        else if (chain[chain.Count] == 3)
+        {
+            chainInputUI.chainInputSlots[chain.Count].sprite = chainInputUI.yChainInput;
+        }
+        
     }
 }
