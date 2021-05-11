@@ -12,7 +12,7 @@ public class Scr_SlotBehavior : MonoBehaviour
 
     private void Start()
     {
-        #region Instances acquirement
+        #region INSTANCES ACQUIREMENT
         controller = Scr_Controller.instance;
         #endregion
 

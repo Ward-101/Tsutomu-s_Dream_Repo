@@ -124,9 +124,9 @@ public class Scr_Controller : MonoBehaviour
                             if (inputIndex == activeSlot.possibleInput[i])
                             {
                                 propsOnBeat.StartZoomToBeat(zoomToBeatZoomScale);
-
+                                
                                 partition.activeSlot = activeSlot.linkedSlot[i];
-                                chain.Add(activeSlot.inputIndex);
+                                chain.Add(partition.activeSlot.GetComponent<Scr_SlotBehavior>().inputIndex);
 
                                 possibleInputUI.DisplayPossibleInput();
 
@@ -154,6 +154,101 @@ public class Scr_Controller : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Check if the sequence of note played sduring the phase match the one required for the combos
+    /// </summary>
+    private void CheckChainForCombo()
+    {
+        if (chain.Count >= partition.combo1Notes.Length)
+        {
+            int a = 0;
+            int b = 0;
+
+            for (int i = 0; i < chain.Count; i++)
+            {
+                if (a <= chain.Count)
+                {
+                    if (chain[a] == partition.combo1Notes[b])
+                    {
+                        a++;
+                        b++;
+
+                        if (b == partition.combo1Notes.Length)
+                        {
+                            print("combo 1 : Succeed");
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        a++;
+                    }
+
+                }
+            }
+            
+        }
+
+        if (chain.Count >= partition.combo2Notes.Length)
+        {
+            int a = 0;
+            int b = 0;
+
+            for (int i = 0; i < chain.Count; i++)
+            {
+                if (a <= chain.Count)
+                {
+                    if (chain[a] == partition.combo2Notes[b])
+                    {
+                        a++;
+                        b++;
+
+                        if (b == partition.combo2Notes.Length)
+                        {
+                            print("combo 2 : Succeed");
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        a++;
+                    }
+
+                }
+            }
+        }
+
+        if (chain.Count >= partition.combo3Notes.Length)
+        {
+            int a = 0;
+            int b = 0;
+
+            for (int i = 0; i < chain.Count; i++)
+            {
+                if (a <= chain.Count)
+                {
+                    if (chain[a] == partition.combo3Notes[b])
+                    {
+                        a++;
+                        b++;
+
+                        if (b == partition.combo3Notes.Length)
+                        {
+                            print("combo 3 : Succeed");
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        a++;
+                    }
+
+                }
+            }
+        }
+
+    }
+
     public void EndPhase()
     {
         //Start conductor's break phase
@@ -162,6 +257,9 @@ public class Scr_Controller : MonoBehaviour
 
         //Rewind the partition
         partition.activeSlot = partition.startSlot;
+
+        //Check if the sequence of note played sduring the phase match the one required for the combos
+        CheckChainForCombo();
 
         //Clear the note from the chain
         chain.Clear();

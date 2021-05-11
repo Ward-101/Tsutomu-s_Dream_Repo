@@ -57,6 +57,7 @@ public class Scr_DummyHealthManager : MonoBehaviour
             else
             {
                 currentHp = maxHp;
+                hpSlider.value = currentHp / maxHp;
             }
         }
     }

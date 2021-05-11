@@ -1141,7 +1141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputTiming: 0.3
-  baseDamage: 5
+  baseDamage: 7.5
   zoomToBeatZoomScale: 0.085
   aInput: 0
   bInput: 0
@@ -1498,7 +1498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.454902, g: 0.14901961, b: 0.24705884, a: 1}
+  m_Color: {r: 0.33962262, g: 0.11374155, b: 0.18613932, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1931,6 +1931,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08fd30d92593e124980b862b50c3c86c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combo1Effect: HEAL
+  combo1Notes: 030000000100000001000000
+  combo2Effect: DAMAGE_A
+  combo2Notes: 03000000010000000200000002000000
+  combo3Effect: SLOWTIME
+  combo3Notes: 0100000000000000
   startSlot: {fileID: 1558738458}
   activeSlot: {fileID: 0}
 --- !u!1 &1259712903
@@ -2304,7 +2310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.454902, g: 0.14901961, b: 0.24705884, a: 1}
+  m_Color: {r: 0.33962262, g: 0.11374155, b: 0.18613932, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:

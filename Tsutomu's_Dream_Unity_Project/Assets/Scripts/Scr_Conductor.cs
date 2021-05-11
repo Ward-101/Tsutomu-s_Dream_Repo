@@ -52,6 +52,11 @@ public class Scr_Conductor : MonoBehaviour
         GetComponent<AudioSource>().Play();
     }
 
+    private void RecalculateBPM()
+    {
+        secPerBeat = 60f / bpm;
+    }
+
     private void Update()
     {
         songPosition = (float)(AudioSettings.dspTime - dspSongTime);
