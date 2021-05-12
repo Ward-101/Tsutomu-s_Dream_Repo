@@ -878,7 +878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d3cd53c618ee749ad81fb3344cb575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bpm: 70
+  bpm: 140
   breakBeatNbr: 4
   endBreakBeatNbr: 4
   breakSpatialBlend: 0
@@ -3957,15 +3957,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Partition_Axe
       objectReference: {fileID: 0}
+    - target: {fileID: 1344795332080003612, guid: 05896d00a78660343bbe3f33061cd0e3,
+        type: 3}
+      propertyPath: inputIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1344795332753555591, guid: 05896d00a78660343bbe3f33061cd0e3,
         type: 3}
       propertyPath: inputIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1344795333085007544, guid: 05896d00a78660343bbe3f33061cd0e3,
         type: 3}
       propertyPath: inputIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05896d00a78660343bbe3f33061cd0e3, type: 3}

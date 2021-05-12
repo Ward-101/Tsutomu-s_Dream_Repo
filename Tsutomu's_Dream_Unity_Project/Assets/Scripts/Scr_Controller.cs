@@ -123,6 +123,8 @@ public class Scr_Controller : MonoBehaviour
                 if (isLookingForInputs)
                 {
                     asHitNoteInBeat = true;
+                    isLookingForInputs = false;
+
                     Scr_SlotBehavior activeSlot = partition.activeSlot.GetComponent<Scr_SlotBehavior>();
 
                     if (activeSlot.possibleInput.Length > 0)
@@ -265,6 +267,9 @@ public class Scr_Controller : MonoBehaviour
         //Start conductor's break phase
         conductor.isEndBreak = false;
         conductor.isBreak = true;
+
+        //Reset this parameter to prevent bugs when leaving break phases
+        asHitNoteInBeat = false;
 
         //Rewind the partition
         partition.activeSlot = partition.startSlot;
