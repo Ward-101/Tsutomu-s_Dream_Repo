@@ -19,12 +19,13 @@ public class Scr_Controller : MonoBehaviour
     [Header("States : DON'T TOUCH")]
     [SerializeField] private bool isLookingForInputs = false;
     [SerializeField] private bool asHitNoteInBeat = false;
+    [SerializeField] private bool shouldCheckForInputInLastBeat = true;
 
     [Header("DON'T TOUCH")]
-    [SerializeField] private List<int> chain;
+    public List<int> chain;
 
     public static Scr_Controller instance = null;
-    private bool canResetAsHitNotInBeat = false;
+    
      
     private Scr_Conductor conductor;
     private Scr_Partition partition;
@@ -81,20 +82,22 @@ public class Scr_Controller : MonoBehaviour
         {
             if (conductor.beatProgression <= inputTiming || 1f - inputTiming <= conductor.beatProgression)
             {
-                if (canResetAsHitNotInBeat)
+                if (!shouldCheckForInputInLastBeat)
                 {
-                    asHitNoteInBeat = false;
-                    canResetAsHitNotInBeat = false;
+                    shouldCheckForInputInLastBeat = true;
                 }
 
-
-                isLookingForInputs = true;
+                if (!asHitNoteInBeat)
+                {
+                    isLookingForInputs = true;
+                }
+                
             }
             else
             {
                 isLookingForInputs = false;
 
-                if (inputTiming < conductor.beatProgression && conductor.beatProgression < 1f - inputTiming)
+                if (shouldCheckForInputInLastBeat)
                 {
                     if (!asHitNoteInBeat)
                     {
@@ -102,7 +105,8 @@ public class Scr_Controller : MonoBehaviour
                     }
                     else
                     {
-                        canResetAsHitNotInBeat = true;
+                        asHitNoteInBeat = false;
+                        shouldCheckForInputInLastBeat = false;
                     }
                 }
             }
@@ -128,6 +132,7 @@ public class Scr_Controller : MonoBehaviour
                             if (inputIndex == activeSlot.possibleInput[i])
                             {
                                 propsOnBeat.StartZoomToBeat(zoomToBeatZoomScale);
+                                Scr_TempoUI.instance.StartSuccessInput();
                                 
                                 partition.activeSlot = activeSlot.linkedSlot[i];
 
@@ -267,12 +272,6 @@ public class Scr_Controller : MonoBehaviour
         //Check if the sequence of note played sduring the phase match the one required for the combos
         CheckChainForCombo();
 
-        //Clear the note from the chain
-        chain.Clear();
-
-        //Clear chainUI
-        chainInputUI.clearInputSlots();
-
         //Set all possible input display to OFF
         possibleInputUI.HideAllPossibleInput();
 
@@ -285,23 +284,23 @@ public class Scr_Controller : MonoBehaviour
 
     private void UpdateChainInputUI()
     {
-        chainInputUI.chainInputSlots[chain.Count].gameObject.SetActive(true);
+        chainInputUI.chainInputSlots[chain.Count - 1].gameObject.SetActive(true);
 
-        if (chain[chain.Count] == 0)
+        if (chain[chain.Count - 1] == 0)
         {
-            chainInputUI.chainInputSlots[chain.Count].sprite = chainInputUI.aChainInput;
+            chainInputUI.chainInputSlots[chain.Count - 1].sprite = chainInputUI.aChainInput;
         }
-        else if (chain[chain.Count] == 1)
+        else if (chain[chain.Count - 1] == 1)
         {
-            chainInputUI.chainInputSlots[chain.Count].sprite = chainInputUI.bChainInput;
+            chainInputUI.chainInputSlots[chain.Count - 1].sprite = chainInputUI.bChainInput;
         }
-        else if (chain[chain.Count] == 2)
+        else if (chain[chain.Count - 1] == 2)
         {
-            chainInputUI.chainInputSlots[chain.Count].sprite = chainInputUI.xChainInput;
+            chainInputUI.chainInputSlots[chain.Count - 1].sprite = chainInputUI.xChainInput;
         }
-        else if (chain[chain.Count] == 3)
+        else if (chain[chain.Count - 1] == 3)
         {
-            chainInputUI.chainInputSlots[chain.Count].sprite = chainInputUI.yChainInput;
+            chainInputUI.chainInputSlots[chain.Count - 1].sprite = chainInputUI.yChainInput;
         }
         
     }

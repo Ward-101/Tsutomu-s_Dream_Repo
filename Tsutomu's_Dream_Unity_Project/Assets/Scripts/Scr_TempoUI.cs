@@ -15,9 +15,13 @@ public class Scr_TempoUI : MonoBehaviour
     [SerializeField, Range(0.001f, 1f)] private float zoomTimeScale = 1f;
     [SerializeField] private float zoomScale;
 
+    [SerializeField] private AnimationCurve growthCurve;
+    [SerializeField] private float growthRate = 0.8f;
+
     [Header("States : DON'T TOUCH")]
     [SerializeField] private bool shouldlerp = false;
     [SerializeField] private bool shouldScaleHeart = false;
+    [SerializeField] private bool shouldSucessInputScale = false;
 
     [Header("DON'T TOUCH")]
     [SerializeField] private List<GameObject> rightNotes;
@@ -25,16 +29,18 @@ public class Scr_TempoUI : MonoBehaviour
     [SerializeField] private List<float> timeStartedLerping;
 
 
-
     private RectTransform spawnRightTransform = null;
     private RectTransform spawnLeftTransform = null;
     private RectTransform endTransform = null;
+    private GameObject successInputGo;
     private Image trackImage = null;
 
     private float lerpTime;
     private int spriteSwapNbr = 0;
     private float timeStartedHeartBeat;
+    private float timeStartedSucessInput;
     private Vector2 heartBaseScale;
+    private Vector2 sucessInputBaseScale;
 
     private Scr_Conductor conductor;
 
@@ -49,13 +55,16 @@ public class Scr_TempoUI : MonoBehaviour
     {
         conductor = Scr_Conductor.instance;
 
-        spawnRightTransform = transform.GetChild(3).GetComponent<RectTransform>();
-        spawnLeftTransform = transform.GetChild(4).GetComponent<RectTransform>();
-        endTransform = transform.GetChild(5).GetComponent<RectTransform>();
+        spawnRightTransform = transform.GetChild(4).GetComponent<RectTransform>();
+        spawnLeftTransform = transform.GetChild(5).GetComponent<RectTransform>();
+        endTransform = transform.GetChild(6).GetComponent<RectTransform>();
+        successInputGo = transform.GetChild(0).gameObject;
 
-        trackImage = transform.GetChild(0).GetComponent<Image>();
+        trackImage = transform.GetChild(1).GetComponent<Image>();
 
         heartBaseScale = endTransform.sizeDelta;
+        sucessInputBaseScale = successInputGo.GetComponent<RectTransform>().sizeDelta;
+        successInputGo.SetActive(false);
 
         SetNotes();
 
@@ -95,6 +104,11 @@ public class Scr_TempoUI : MonoBehaviour
         {
             HeartBeat();
         }
+
+        if (shouldSucessInputScale)
+        {
+            SucessInput();
+        }
     }
 
     private void StartHeartBeat()
@@ -131,6 +145,34 @@ public class Scr_TempoUI : MonoBehaviour
         }
     }
 
+    public void StartSuccessInput()
+    {
+        successInputGo.SetActive(true);
+
+        successInputGo.GetComponent<RectTransform>().sizeDelta = new Vector2(250f, 250f);
+        successInputGo.GetComponent<Image>().color = endTransform.GetComponent<Image>().color;
+
+        timeStartedSucessInput = (float)AudioSettings.dspTime;
+        shouldSucessInputScale = true;
+    }
+
+    public void SucessInput()
+    {
+        float normalizedCurveTime = ((float)AudioSettings.dspTime - timeStartedSucessInput) / (conductor.secPerBeat);
+
+        if (normalizedCurveTime <= 1)
+        {
+            successInputGo.GetComponent<RectTransform>().sizeDelta = sucessInputBaseScale * ((growthCurve.Evaluate(normalizedCurveTime) * growthRate + 1));
+            successInputGo.GetComponent<Image>().color = new Color(successInputGo.GetComponent<Image>().color.r, successInputGo.GetComponent<Image>().color.g, successInputGo.GetComponent<Image>().color.b, (1 - (1 * (growthCurve.Evaluate(normalizedCurveTime)))));
+        }
+        else
+        {
+            successInputGo.GetComponent<RectTransform>().sizeDelta = sucessInputBaseScale;
+            successInputGo.SetActive(false);
+            shouldSucessInputScale = false;
+        }
+    }
+
     #region Lerp Func
     private void StartLerp()
     {
@@ -151,8 +193,8 @@ public class Scr_TempoUI : MonoBehaviour
 
         for (int i = 0; i < noteShownInAdvanceNbr + 1; i++)
         {
-            GameObject noteRight = (GameObject)Instantiate(notePrefab, spawnRightTransform.position, Quaternion.identity, transform.GetChild(1));
-            GameObject noteLeft = (GameObject)Instantiate(notePrefab, spawnLeftTransform.position, Quaternion.identity, transform.GetChild(2));
+            GameObject noteRight = (GameObject)Instantiate(notePrefab, spawnRightTransform.position, Quaternion.identity, transform.GetChild(2));
+            GameObject noteLeft = (GameObject)Instantiate(notePrefab, spawnLeftTransform.position, Quaternion.identity, transform.GetChild(3));
 
             noteLeft.transform.eulerAngles = new Vector2(0, 180);
 
@@ -248,4 +290,7 @@ public class Scr_TempoUI : MonoBehaviour
         return result;
     }
     #endregion
+
+    
+
 }

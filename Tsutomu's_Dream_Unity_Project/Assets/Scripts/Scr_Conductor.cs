@@ -9,6 +9,7 @@ public class Scr_Conductor : MonoBehaviour
     [SerializeField] private float bpm = 120.0f;
     [SerializeField] private int breakBeatNbr = 3;
     [SerializeField] private int endBreakBeatNbr = 4;
+    [SerializeField] private float breakSpatialBlend = 0.65f;
 
     [Header("States : DON'T TOUCH")]
     public bool isBreak = true;
@@ -28,8 +29,12 @@ public class Scr_Conductor : MonoBehaviour
     [HideInInspector] public float secPerBeat;
     private float songPosition;
     private float dspSongTime;
+    private AudioSource songAudioSource;
+    private AudioSource breakAudioSource;
 
     private Scr_PossibleInputUI possibleInputUI;
+    private Scr_ChainInputUI chainInputUI;
+    private Scr_Controller controller;
 
     public static Scr_Conductor instance = null;
 
@@ -43,13 +48,18 @@ public class Scr_Conductor : MonoBehaviour
 
     private void Start()
     {
+        breakAudioSource = transform.GetChild(0).GetComponent<AudioSource>();
+
+        controller = Scr_Controller.instance;
         possibleInputUI = Scr_PossibleInputUI.instance;
+        chainInputUI = Scr_ChainInputUI.instance;
 
         secPerBeat = 60f / bpm;
 
         dspSongTime = (float)AudioSettings.dspTime;
 
-        GetComponent<AudioSource>().Play();
+        songAudioSource = GetComponent<AudioSource>();
+        songAudioSource.Play();
     }
 
     private void RecalculateBPM()
@@ -93,6 +103,8 @@ public class Scr_Conductor : MonoBehaviour
                     breakCurrentBeat = 1;
                     isEndBreak = true;
                 }
+
+                songAudioSource.spatialBlend = breakSpatialBlend;
             }
             else
             {
@@ -107,6 +119,17 @@ public class Scr_Conductor : MonoBehaviour
 
     private void EndBreak()
     {
+        //Clear the note from the chain
+        controller.chain.Clear();
+
+        //Clear chainUI
+        chainInputUI.clearInputSlots();
+
+        //Reset the spatial blend
+        songAudioSource.spatialBlend = 0f;
+
+        breakAudioSource.Play();
+
         if (!endBreakText.gameObject.activeInHierarchy)
         {
             endBreakText.gameObject.SetActive(true);
