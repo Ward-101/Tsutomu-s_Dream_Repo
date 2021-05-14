@@ -6,7 +6,7 @@ using TMPro;
 public class Scr_Conductor : MonoBehaviour
 {
     [Header("Edit")]
-    [SerializeField] private float bpm = 120.0f;
+    public float bpm = 140.0f;
     [SerializeField] private int breakBeatNbr = 3;
     [SerializeField] private int endBreakBeatNbr = 4;
     [SerializeField] private float breakSpatialBlend = 0.65f;
@@ -19,6 +19,7 @@ public class Scr_Conductor : MonoBehaviour
     public float songPositionInBeats;
     public float beatProgression;
     public int beatCount = 0;
+    public int phaseCount = 0;
 
     [Header("Requirements")]
     public TMP_Text endBreakText;
@@ -29,7 +30,7 @@ public class Scr_Conductor : MonoBehaviour
     [HideInInspector] public float secPerBeat;
     private float songPosition;
     private float dspSongTime;
-    private AudioSource songAudioSource;
+    [HideInInspector] public AudioSource songAudioSource;
     private AudioSource breakAudioSource;
 
     private Scr_PossibleInputUI possibleInputUI;
@@ -62,8 +63,9 @@ public class Scr_Conductor : MonoBehaviour
         songAudioSource.Play();
     }
 
-    private void RecalculateBPM()
+    public void RecalculateBPM(float newBPM)
     {
+        bpm = newBPM;
         secPerBeat = 60f / bpm;
     }
 
@@ -102,6 +104,15 @@ public class Scr_Conductor : MonoBehaviour
                 {
                     breakCurrentBeat = 1;
                     isEndBreak = true;
+                }
+
+                if (breakCurrentBeat == 2)
+                {
+                    //End the combo started at previous phases 
+                    Scr_Equipement.instance.EndComboBonus();
+
+                    //Check if the sequence of note played sduring the phase match the one required for the combos
+                    controller.CheckChainForCombo();
                 }
 
                 songAudioSource.spatialBlend = breakSpatialBlend;

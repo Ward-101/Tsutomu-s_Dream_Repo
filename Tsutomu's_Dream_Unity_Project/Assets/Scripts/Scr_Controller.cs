@@ -6,7 +6,8 @@ public class Scr_Controller : MonoBehaviour
 {
     [Header("Edit")]
     [SerializeField, Range(0.001f, 0.499f)] private float inputTiming = 0.1f;
-    [SerializeField, Range(0f, 100f)] private float baseDamage = 5f;
+    [SerializeField, Range(0f, 100f)] public float baseDamage = 5f;
+    [SerializeField] private float dmgScaling = 0.2f;
     [SerializeField, Range(0.001f, 1f)] private float zoomToBeatZoomScale = 1f;
 
     [Header("Inputs : DON'T TOUCH")]
@@ -23,16 +24,17 @@ public class Scr_Controller : MonoBehaviour
 
     [Header("DON'T TOUCH")]
     public List<int> chain;
+    public float activeDmg;
 
     public static Scr_Controller instance = null;
     
-     
     private Scr_Conductor conductor;
     private Scr_Partition partition;
     private Scr_PropsOnBeat propsOnBeat;
     private Scr_PossibleInputUI possibleInputUI;
     private Scr_DummyHealthManager dummyHealthManager;
     private Scr_ChainInputUI chainInputUI;
+    private Scr_Equipement equipement;
 
     private void Awake()
     {
@@ -48,9 +50,12 @@ public class Scr_Controller : MonoBehaviour
         possibleInputUI = Scr_PossibleInputUI.instance;
         dummyHealthManager = Scr_DummyHealthManager.instance;
         chainInputUI = Scr_ChainInputUI.instance;
+        equipement = Scr_Equipement.instance;
         #endregion
 
         chain = new List<int>();
+        activeDmg = baseDamage;
+
     }
 
     private void Update()
@@ -143,7 +148,7 @@ public class Scr_Controller : MonoBehaviour
 
                                 possibleInputUI.DisplayPossibleInput();
 
-                                dummyHealthManager.TakeDamage(baseDamage + (baseDamage * (0.2f * chain.Count - 1)));
+                                dummyHealthManager.TakeDamage(activeDmg + (activeDmg * (dmgScaling * chain.Count - 1)));
                                 break;
                             }
                             else if (inputIndex != activeSlot.possibleInput[i] && i == activeSlot.possibleInput.Length - 1)
@@ -170,9 +175,9 @@ public class Scr_Controller : MonoBehaviour
     /// <summary>
     /// Check if the sequence of note played sduring the phase match the one required for the combos
     /// </summary>
-    private void CheckChainForCombo()
+    public void CheckChainForCombo()
     {
-        if (chain.Count >= partition.combo1Notes.Length)
+        if (chain.Count >= equipement.combo1Notes.Length)
         {
             int a = 0;
             int b = 0;
@@ -181,14 +186,17 @@ public class Scr_Controller : MonoBehaviour
             {
                 if (a <= chain.Count)
                 {
-                    if (chain[a] == partition.combo1Notes[b])
+                    if (chain[a] == equipement.combo1Notes[b])
                     {
                         a++;
                         b++;
 
-                        if (b == partition.combo1Notes.Length)
+                        if (b == equipement.combo1Notes.Length)
                         {
-                            print("combo 1 : Succeed");
+                            if (equipement.combo1Effect == "SLOW")
+                            {
+                                equipement.StartSlowtime();
+                            }
                             break;
                         }
                     }
@@ -202,7 +210,7 @@ public class Scr_Controller : MonoBehaviour
             
         }
 
-        if (chain.Count >= partition.combo2Notes.Length)
+        if (chain.Count >= equipement.combo2Notes.Length)
         {
             int a = 0;
             int b = 0;
@@ -211,12 +219,12 @@ public class Scr_Controller : MonoBehaviour
             {
                 if (a <= chain.Count)
                 {
-                    if (chain[a] == partition.combo2Notes[b])
+                    if (chain[a] == equipement.combo2Notes[b])
                     {
                         a++;
                         b++;
 
-                        if (b == partition.combo2Notes.Length)
+                        if (b == equipement.combo2Notes.Length)
                         {
                             print("combo 2 : Succeed");
                             break;
@@ -231,7 +239,7 @@ public class Scr_Controller : MonoBehaviour
             }
         }
 
-        if (chain.Count >= partition.combo3Notes.Length)
+        if (chain.Count >= equipement.combo3Notes.Length)
         {
             int a = 0;
             int b = 0;
@@ -240,14 +248,17 @@ public class Scr_Controller : MonoBehaviour
             {
                 if (a <= chain.Count)
                 {
-                    if (chain[a] == partition.combo3Notes[b])
+                    if (chain[a] == equipement.combo3Notes[b])
                     {
                         a++;
                         b++;
 
-                        if (b == partition.combo3Notes.Length)
+                        if (b == equipement.combo3Notes.Length)
                         {
-                            print("combo 3 : Succeed");
+                            if (equipement.combo3Effect == "DMG")
+                            {
+                                equipement.StartDmgUp();
+                            }
                             break;
                         }
                     }
@@ -268,14 +279,15 @@ public class Scr_Controller : MonoBehaviour
         conductor.isEndBreak = false;
         conductor.isBreak = true;
 
+        //Increment phase count to keep track of the progression in phase
+        conductor.phaseCount++;
+
         //Reset this parameter to prevent bugs when leaving break phases
         asHitNoteInBeat = false;
 
         //Rewind the partition
         partition.activeSlot = partition.startSlot;
 
-        //Check if the sequence of note played sduring the phase match the one required for the combos
-        CheckChainForCombo();
 
         //Set all possible input display to OFF
         possibleInputUI.HideAllPossibleInput();

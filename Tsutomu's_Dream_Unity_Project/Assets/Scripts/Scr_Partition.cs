@@ -2,18 +2,8 @@
 
 public class Scr_Partition : MonoBehaviour
 {
-    [Header("Combo Editor")]
-    public string combo1Effect;
-    public int[] combo1Notes;
-    public string combo2Effect;
-    public int[] combo2Notes;
-    public string combo3Effect;
-    public int[] combo3Notes;
-
-    [Header("Edit")]
-    public GameObject startSlot;
-
     [Header("DON'T TOUCH")]
+    public GameObject startSlot;
     public GameObject activeSlot;
 
     public static Scr_Partition instance = null;
@@ -25,7 +15,20 @@ public class Scr_Partition : MonoBehaviour
 
     private void Start()
     {
+        //Set startSlot
+        startSlot = transform.GetChild(0).gameObject;
+
         //Set first active slot to the start slot
         activeSlot = startSlot;
+    }
+
+
+    [ContextMenu("Randomize the note in each slot of the partition")]
+    public void RandomizePartition()
+    {
+        for (int i = 1; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).GetComponent<Scr_SlotBehavior>().inputIndex = Random.Range(0, 4);
+        }
     }
 }
