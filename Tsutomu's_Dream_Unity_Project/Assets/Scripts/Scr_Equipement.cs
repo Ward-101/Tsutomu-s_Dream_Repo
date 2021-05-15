@@ -72,7 +72,7 @@ public class Scr_Equipement : MonoBehaviour
             conductor.RecalculateBPM(normalBPM);
             conductor.songAudioSource.pitch += slowScale;
 
-            activeBonusesUI.BonusFeedback(activeBonusesUI.slowTimeSprite);
+            activeBonusesUI.EndBonusFeedback(activeBonusesUI.slowTimeSprite);
         }
     }
 

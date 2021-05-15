@@ -35,6 +35,7 @@ public class Scr_Controller : MonoBehaviour
     private Scr_DummyHealthManager dummyHealthManager;
     private Scr_ChainInputUI chainInputUI;
     private Scr_Equipement equipement;
+    private Scr_MelodySpriteManager melodySpriteManager;
 
     private void Awake()
     {
@@ -51,6 +52,7 @@ public class Scr_Controller : MonoBehaviour
         dummyHealthManager = Scr_DummyHealthManager.instance;
         chainInputUI = Scr_ChainInputUI.instance;
         equipement = Scr_Equipement.instance;
+        melodySpriteManager = Scr_MelodySpriteManager.instance;
         #endregion
 
         chain = new List<int>();
@@ -129,6 +131,8 @@ public class Scr_Controller : MonoBehaviour
                 {
                     asHitNoteInBeat = true;
                     isLookingForInputs = false;
+
+                    melodySpriteManager.StartAttackAnim();
 
                     Scr_SlotBehavior activeSlot = partition.activeSlot.GetComponent<Scr_SlotBehavior>();
 
