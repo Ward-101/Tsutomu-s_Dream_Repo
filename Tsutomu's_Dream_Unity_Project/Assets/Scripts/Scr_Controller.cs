@@ -230,7 +230,10 @@ public class Scr_Controller : MonoBehaviour
 
                         if (b == equipement.combo2Notes.Length)
                         {
-                            print("combo 2 : Succeed");
+                            if (equipement.combo2Effect == "DEF")
+                            {
+                                equipement.StartDefense();
+                            }
                             break;
                         }
                     }

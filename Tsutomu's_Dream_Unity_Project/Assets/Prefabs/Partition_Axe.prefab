@@ -148,13 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08fd30d92593e124980b862b50c3c86c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combo1Effect: DEFENSE
-  combo1Notes: 030000000100000001000000
-  combo2Effect: DAMAGE_A
-  combo2Notes: 03000000010000000200000002000000
-  combo3Effect: SLOWTIME
-  combo3Notes: 0100000000000000
-  startSlot: {fileID: 1344795333125772421}
+  startSlot: {fileID: 0}
   activeSlot: {fileID: 0}
 --- !u!1 &1344795331550741113
 GameObject:
@@ -577,7 +571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc908d9a867eeca4e9b1c7370cba122f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputIndex: 2
+  inputIndex: 1
   linkedSlot:
   - {fileID: 1344795332753555590}
   possibleInput: 

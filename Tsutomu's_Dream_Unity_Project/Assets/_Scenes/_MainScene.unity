@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 43867318}
   - component: {fileID: 43867319}
   m_Layer: 0
-  m_Name: Equipement
+  m_Name: Equipement_Set1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -380,17 +380,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2a3b9edad9b5644a8b5bc7b6e1b9285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slowScale: 0.1
-  dmgMultiplicator: 1.8
   combo1Effect: SLOW
   combo1Duration: 1
   combo1Notes: 010000000200000001000000
   combo2Effect: DEF
   combo2Duration: 1
-  combo2Notes: 030000000300000002000000
+  combo2Notes: 0100000000000000
   combo3Effect: DMG
   combo3Duration: 2
   combo3Notes: 0100000000000000
+  slowScale: 0.1
+  dmgMultiplicator: 1.8
   isCombo1: 0
   isCombo2: 0
   isCombo3: 0
@@ -2713,18 +2713,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1245407266 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1220634373, guid: 05896d00a78660343bbe3f33061cd0e3,
-    type: 3}
-  m_PrefabInstance: {fileID: 1344795333084617596}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08fd30d92593e124980b862b50c3c86c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1259712903
 GameObject:
   m_ObjectHideFlags: 0
@@ -3320,7 +3308,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1595419143}
   m_Layer: 0
-  m_Name: '- Partition -'
+  m_Name: '- Partitions -'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4522,38 +4510,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1595419143}
     m_Modifications:
-    - target: {fileID: 1220634373, guid: 05896d00a78660343bbe3f33061cd0e3, type: 3}
-      propertyPath: startSlot
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220634373, guid: 05896d00a78660343bbe3f33061cd0e3, type: 3}
-      propertyPath: combo2Effect
-      value: DAMAGE
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220634373, guid: 05896d00a78660343bbe3f33061cd0e3, type: 3}
-      propertyPath: randomizePartition.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220634373, guid: 05896d00a78660343bbe3f33061cd0e3, type: 3}
-      propertyPath: randomizePartition.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220634373, guid: 05896d00a78660343bbe3f33061cd0e3, type: 3}
-      propertyPath: randomizePartition.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1245407266}
-    - target: {fileID: 1220634373, guid: 05896d00a78660343bbe3f33061cd0e3, type: 3}
-      propertyPath: randomizePartition.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220634373, guid: 05896d00a78660343bbe3f33061cd0e3, type: 3}
-      propertyPath: randomizePartition.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RandomizePartition
-      objectReference: {fileID: 0}
-    - target: {fileID: 1220634373, guid: 05896d00a78660343bbe3f33061cd0e3, type: 3}
-      propertyPath: randomizePartition.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 1344795331492923040, guid: 05896d00a78660343bbe3f33061cd0e3,
         type: 3}
       propertyPath: m_RootOrder
@@ -4612,22 +4568,7 @@ PrefabInstance:
     - target: {fileID: 1344795331492923047, guid: 05896d00a78660343bbe3f33061cd0e3,
         type: 3}
       propertyPath: m_Name
-      value: Partition_Axe
-      objectReference: {fileID: 0}
-    - target: {fileID: 1344795332080003612, guid: 05896d00a78660343bbe3f33061cd0e3,
-        type: 3}
-      propertyPath: inputIndex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1344795332753555591, guid: 05896d00a78660343bbe3f33061cd0e3,
-        type: 3}
-      propertyPath: inputIndex
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1344795333085007544, guid: 05896d00a78660343bbe3f33061cd0e3,
-        type: 3}
-      propertyPath: inputIndex
-      value: 1
+      value: Partition_Guitare
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05896d00a78660343bbe3f33061cd0e3, type: 3}

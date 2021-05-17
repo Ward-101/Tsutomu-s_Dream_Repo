@@ -4,24 +4,27 @@ using UnityEngine;
 
 public class Scr_Equipement : MonoBehaviour
 {
-    [Header("Edit")]
-    [SerializeField, Range(0.01f, 9.99f)] private float slowScale;
-    [SerializeField, Range(1f, 10f)] private float dmgMultiplicator; 
-
-    [Header("Combo 1")]
+    [Header("Combo 1 : DON'T TOUCH")]
     public string combo1Effect;
     [Tooltip("Duration in phase number"), Range(1, 10)] public int combo1Duration = 1;
-    [Range(1, 3)] public int[] combo1Notes;
+    [Header("Combo 1 : EDIT")]
+    [Range(0, 3)] public int[] combo1Notes;
 
-    [Header("Combo 2")]
+    [Header("Combo 2 : DON'T TOUCH")]
     public string combo2Effect;
     [Tooltip("Duration in phase number"), Range(1, 10)] public int combo2Duration = 1;
-    [Range(1, 3)] public int[] combo2Notes;
+    [Header("Combo 2 : EDIT")]
+    [Range(0, 3)] public int[] combo2Notes;
 
-    [Header("Combo 3")]
+    [Header("Combo 3 : DON'T TOUCH")]
     public string combo3Effect;
     [Tooltip("Duration in phase number"), Range(1, 10)] public int combo3Duration = 1;
-    [Range(1, 3)] public int[] combo3Notes;
+    [Header("Combo 3 : EDIT")]
+    [Range(0, 3)] public int[] combo3Notes;
+
+    [Header("Edit : DON'T TOUCH")]
+    [SerializeField, Range(0.01f, 9.99f)] private float slowScale;
+    [SerializeField, Range(1f, 10f)] private float dmgMultiplicator;
 
     [Header("States : DON'T TOUCH")]
     public bool isCombo1;
@@ -60,6 +63,8 @@ public class Scr_Equipement : MonoBehaviour
 
             activeBonusesUI.BonusFeedback(activeBonusesUI.slowTimeSprite);
 
+            combo1StartPhase = conductor.phaseCount;
+
             isCombo1 = true;
         }
     }
@@ -76,9 +81,24 @@ public class Scr_Equipement : MonoBehaviour
         }
     }
 
-    public void Defense()
+    public void StartDefense()
     {
-        //Active un sprite sur la barre de vie su joueur
+        if (!isCombo2)
+        {
+            activeBonusesUI.BonusFeedback(activeBonusesUI.defUpSprite);
+
+            combo2StartPhase = conductor.phaseCount;
+
+            isCombo2 = true;
+        }
+    }
+
+    public void EndDefense()
+    {
+        if (isCombo2)
+        {
+            activeBonusesUI.EndBonusFeedback(activeBonusesUI.defUpSprite);
+        }
     }
 
     public void StartDmgUp()
@@ -109,6 +129,15 @@ public class Scr_Equipement : MonoBehaviour
             {
                 EndSlowTime();
                 isCombo1 = false;
+            }
+        }
+
+        if (isCombo2)
+        {
+            if (conductor.phaseCount - combo2StartPhase >= combo2Duration)
+            {
+                EndDefense();
+                isCombo2 = false;
             }
         }
 
